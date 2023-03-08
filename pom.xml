@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.jzy3d</groupId>
+	<artifactId>jzy3d-guide-javafx</artifactId>
+	<name>Jzy3d Guide JavaFX</name>
+	<version>2.2.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+
+	<modules>
+		<module>jzy3d-guide-javafx-jdk8</module>
+		<module>jzy3d-guide-javafx-jdk19</module>
+	</modules>
+
+	<!--To retrieve Jzy3d dependencies -->
+	<repositories>
+		<repository>
+			<id>jzy3d-snapshots</id>
+			<name>Jzy3d Snapshots</name>
+			<url>https://maven.jzy3d.org/snapshots/</url>
+		</repository>
+		<repository>
+			<id>jzy3d-releases</id>
+			<name>Jzy3d Releases</name>
+			<url>https://maven.jzy3d.org/releases/</url>
+		</repository>
+	</repositories>
+
+</project>
