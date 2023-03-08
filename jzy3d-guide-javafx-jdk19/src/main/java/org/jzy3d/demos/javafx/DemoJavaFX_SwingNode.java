@@ -5,6 +5,7 @@ import org.jzy3d.chart.factories.ChartFactory;
 import org.jzy3d.colors.Color;
 import org.jzy3d.colors.ColorMapper;
 import org.jzy3d.colors.colormaps.ColorMapRainbow;
+import org.jzy3d.javafx.swing.JavaFXAWTPainterFactory;
 import org.jzy3d.javafx.swing.JavaFXSwingChartFactory;
 import org.jzy3d.maths.Range;
 import org.jzy3d.plot3d.builder.Mapper;
