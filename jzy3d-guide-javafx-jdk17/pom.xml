@@ -12,7 +12,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.jzy3d</groupId>
-			<artifactId>jzy3d-native-jogl-javafx-jdk19</artifactId>
+			<artifactId>jzy3d-native-jogl-javafx-jdk17</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>

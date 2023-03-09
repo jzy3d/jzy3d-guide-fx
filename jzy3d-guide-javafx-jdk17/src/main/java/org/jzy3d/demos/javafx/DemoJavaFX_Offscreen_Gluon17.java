@@ -18,15 +18,18 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 /**
- * Will require JDK17, Gluon's JavaFX 19 in classpath
+ * Will require JDK17, Gluon's JavaFX 17 in classpath
  * 
---module-path /Users/martin/Dev/javafx-sdk-19/lib --add-modules javafx.controls -Dnativewindow.debug.JAWT --add-exports=java.desktop/sun.awt=ALL-UNNAMED
+--module-path /Users/martin/Dev/javafx-sdk-17/lib --add-modules javafx.controls -Dnativewindow.debug.JAWT --add-exports=java.desktop/sun.awt=ALL-UNNAMED
+
+--module-path "C:\Program Files\Java\javafx-sdk-17.0.6\lib"  --add-modules javafx.controls -Dnativewindow.debug.JAWT --add-exports=java.desktop/sun.awt=ALL-UNNAMED
+ * 
  * 
  * 
  * 
  * @author Martin Pernollet
  */
-public class DemoJavaFX_Offscreen_Gluon19 extends Application {
+public class DemoJavaFX_Offscreen_Gluon17 extends Application {
   public static void main(String[] args) {
     Application.launch(args);
   }
@@ -35,7 +38,7 @@ public class DemoJavaFX_Offscreen_Gluon19 extends Application {
   public void start(Stage stage) {
     GLProfile.initSingleton();
     
-    stage.setTitle(DemoJavaFX_Offscreen_Gluon19.class.getSimpleName());
+    stage.setTitle(DemoJavaFX_Offscreen_Gluon17.class.getSimpleName());
 
     // Jzy3d
     JavaFXOffscreenChartFactory factory = new JavaFXOffscreenChartFactory();
