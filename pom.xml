@@ -10,6 +10,7 @@
 
 	<modules>
 		<module>jzy3d-guide-javafx-jdk8</module>
+		<module>jzy3d-guide-javafx-jdk17</module>
 		<module>jzy3d-guide-javafx-jdk19</module>
 	</modules>
 
