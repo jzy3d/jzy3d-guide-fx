@@ -5,9 +5,7 @@ import org.jzy3d.chart.AWTNativeChart;
 import org.jzy3d.chart.controllers.mouse.AWTDualModeMouseSelector;
 import org.jzy3d.chart.controllers.mouse.selection.AWTScatterMouseSelector;
 import org.jzy3d.colors.Color;
-import org.jzy3d.javafx.controllers.mouse.JavaFXCameraMouseController;
 import org.jzy3d.javafx.offscreen.JavaFXOffscreenChartFactory;
-import org.jzy3d.javafx.offscreen.JavaFXOffscreenRenderer3d;
 import org.jzy3d.maths.Coord3d;
 import org.jzy3d.plot3d.primitives.selectable.SelectableScatter;
 import org.jzy3d.plot3d.rendering.canvas.Quality;
@@ -17,21 +15,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-/**
- * Showing how to pipe an offscreen Jzy3d chart image to a JavaFX ImageView.
- * 
- * {@link JavaFXOffscreenChartFactory} delivers dedicated {@link JavaFXCameraMouseController} and
- * {@link JavaFXOffscreenRenderer3d}
- * 
- * Support Rotation control with left mouse button hold+drag Scaling scene using mouse wheel
- * Keyboard (rotate/shift, etc) Animation (camera rotation with thread)
- * 
- * TODO : Mouse right click shift
- * 
- * @author Martin Pernollet
- */
-@SuppressWarnings("restriction")
 
+@SuppressWarnings("restriction")
 public class DemoSelectableScatterFX extends Application {
   public static void main(String[] args) {
     Application.launch(args);
@@ -43,7 +28,7 @@ public class DemoSelectableScatterFX extends Application {
 
     // Jzy3d
     JavaFXOffscreenChartFactory factory = new JavaFXOffscreenChartFactory();
-    AWTNativeChart chart = getDemoChart(factory, "offscreen");
+    AWTNativeChart chart = getDemoChart(factory);
     ImageView imageView = factory.bindImageView(chart);
 
     // JavaFX
@@ -59,7 +44,7 @@ public class DemoSelectableScatterFX extends Application {
     stage.setHeight(500);
   }
 
-  private AWTNativeChart getDemoChart(JavaFXOffscreenChartFactory factory, String toolkit) {
+  private AWTNativeChart getDemoChart(JavaFXOffscreenChartFactory factory) {
     Quality quality = Quality.Advanced();
     int POINTS = 1000;
     SelectableScatter scatter = generateScatter(POINTS);

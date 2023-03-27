@@ -5,7 +5,6 @@ import org.jzy3d.chart.factories.ChartFactory;
 import org.jzy3d.colors.Color;
 import org.jzy3d.colors.ColorMapper;
 import org.jzy3d.colors.colormaps.ColorMapRainbow;
-import org.jzy3d.javafx.swing.JavaFXAWTPainterFactory;
 import org.jzy3d.javafx.swing.JavaFXSwingChartFactory;
 import org.jzy3d.maths.Range;
 import org.jzy3d.plot3d.builder.Mapper;
@@ -16,14 +15,11 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 /**
- * Will require JDK17, Gluon's JavaFX 19 in classpath
- * 
---module-path /Users/martin/Dev/javafx-sdk-19/lib --add-modules javafx.base --add-opens javafx.base/com.sun.javafx=ALL-UNNAMED --add-modules javafx.controls --add-opens javafx.graphics/com.sun.javafx.tk=ALL-UNNAMED --add-opens javafx.graphics/javafx.stage=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.util=ALL-UNNAMED   --add-opens javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.tk.quantum=ALL-UNNAMED --add-opens javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.geom=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.geom.transform=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.sg.prism=ALL-UNNAMED
- * 
- * 
+ * Demonstrate how to use swing charts to display 3D image in a JavaFX SwingNode.
  * 
  * @author Martin Pernollet
  */
+// --module-path /Users/martin/Dev/javafx-sdk-19/lib --add-modules javafx.base --add-opens javafx.base/com.sun.javafx=ALL-UNNAMED --add-modules javafx.controls --add-opens javafx.graphics/com.sun.javafx.tk=ALL-UNNAMED --add-opens javafx.graphics/javafx.stage=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.util=ALL-UNNAMED   --add-opens javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.tk.quantum=ALL-UNNAMED --add-opens javafx.graphics/com.sun.glass.ui=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.geom=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.geom.transform=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.sg.prism=ALL-UNNAMED
 public class DemoJavaFX_SwingNode extends Application {
   public static void main(String[] args) {
     Application.launch(args);

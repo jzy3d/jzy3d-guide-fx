@@ -7,19 +7,13 @@ import static java.lang.Math.sin;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import org.jzy3d.chart.AWTChart;
 import org.jzy3d.chart.AWTNativeChart;
 import org.jzy3d.colors.Color;
 import org.jzy3d.colors.ColorMapper;
 import org.jzy3d.colors.colormaps.ColorMapRainbow;
-import org.jzy3d.javafx.controllers.mouse.JavaFXCameraMouseController;
 import org.jzy3d.javafx.offscreen.JavaFXOffscreenChartFactory;
-import org.jzy3d.javafx.offscreen.JavaFXOffscreenRenderer3d;
 import org.jzy3d.maths.Coord3d;
 import org.jzy3d.maths.Range;
-import org.jzy3d.plot3d.builder.Mapper;
-import org.jzy3d.plot3d.builder.SurfaceBuilder;
-import org.jzy3d.plot3d.primitives.Shape;
 import org.jzy3d.plot3d.primitives.vbo.builders.VBOBuilderListCoord3d;
 import org.jzy3d.plot3d.primitives.vbo.drawable.ScatterVBO;
 import org.jzy3d.plot3d.rendering.canvas.Quality;
@@ -29,19 +23,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-/**
- * Showing how to pipe an offscreen Jzy3d chart image to a JavaFX ImageView.
- * 
- * {@link JavaFXOffscreenChartFactory} delivers dedicated {@link JavaFXCameraMouseController} and
- * {@link JavaFXOffscreenRenderer3d}
- * 
- * Support Rotation control with left mouse button hold+drag Scaling scene using mouse wheel
- * Animation (camera rotation with thread)
- * 
- * TODO : Mouse right click shift Keyboard support (rotate/shift, etc)
- * 
- * @author Martin Pernollet
- */
+
+@SuppressWarnings("restriction")
 public class DemoJavaFX_Offscreen_OpenJDK8_VBO extends Application {
   public static void main(String[] args) {
     Application.launch(args);
@@ -53,7 +36,7 @@ public class DemoJavaFX_Offscreen_OpenJDK8_VBO extends Application {
 
     // Jzy3d
     JavaFXOffscreenChartFactory factory = new JavaFXOffscreenChartFactory();
-    AWTNativeChart chart = getDemoChartVBO(factory, "offscreen");
+    AWTNativeChart chart = getDemoChartVBO(factory);
     ImageView imageView = factory.bindImageView(chart);
 
     // JavaFX
@@ -72,7 +55,7 @@ public class DemoJavaFX_Offscreen_OpenJDK8_VBO extends Application {
 
   public static int MILION = 1000000;
 
-  private AWTNativeChart getDemoChartVBO(JavaFXOffscreenChartFactory factory, String toolkit) {
+  private AWTNativeChart getDemoChartVBO(JavaFXOffscreenChartFactory factory) {
     float ratio = 1.0f;
     int size = (int) (ratio * MILION);
 
@@ -83,8 +66,6 @@ public class DemoJavaFX_Offscreen_OpenJDK8_VBO extends Application {
     // -------------------------------
     // Create a chart
     Quality quality = Quality.Advanced();
-    // quality.setSmoothPolygon(true);
-    // quality.setAnimated(true);
 
     // let factory bind mouse and keyboard controllers to JavaFX node
     AWTNativeChart chart = (AWTNativeChart) factory.newChart(quality);

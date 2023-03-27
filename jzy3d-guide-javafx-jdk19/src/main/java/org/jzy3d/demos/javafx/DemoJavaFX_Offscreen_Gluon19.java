@@ -16,16 +16,14 @@ import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
 /**
- * Will require JDK17, Gluon's JavaFX 19 in classpath
+ * Demonstrate how to use offscreen rendering to display 3D image in a JavaFX ImageView.
  * 
---module-path /Users/martin/Dev/javafx-sdk-19/lib --add-modules javafx.controls -Dnativewindow.debug.JAWT --add-exports=java.desktop/sun.awt=ALL-UNNAMED
- * 
- * 
+ * Will require JDK19, Gluon's JavaFX 19 in classpath
  * 
  * @author Martin Pernollet
  */
+// --module-path /Users/martin/Dev/javafx-sdk-19/lib --add-modules javafx.controls -Dnativewindow.debug.JAWT --add-exports=java.desktop/sun.awt=ALL-UNNAMED
 public class DemoJavaFX_Offscreen_Gluon19 extends Application {
   public static void main(String[] args) {
     Application.launch(args);
@@ -82,13 +80,10 @@ public class DemoJavaFX_Offscreen_Gluon19 extends Application {
     // -------------------------------
     // Create a chart
     Quality quality = Quality.Advanced();
-    // quality.setSmoothPolygon(true);
-    //quality.setAnimated(true);
 
     // let factory bind mouse and keyboard controllers to JavaFX node
     factory.getPainterFactory().setOffscreen(800, 600);
     AWTNativeChart chart = (AWTNativeChart) factory.newChart(quality);
-    //chart.getView().setAxisDisplayed(false);
     chart.getScene().getGraph().add(surface);
     
     return chart;

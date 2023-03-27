@@ -1,4 +1,4 @@
-package org.jzy3d.demos.javafx;
+package org.jzy3d.demos.javafx.jogl;
 
 import com.jogamp.newt.NewtFactory;
 import com.jogamp.newt.Screen;
@@ -20,34 +20,48 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-
-/*
---module-path /Users/martin/Dev/javafx-sdk-19/lib --add-modules javafx.controls,javafx.graphics 
---add-opens javafx.graphics/com.sun.javafx.tk=ALL-UNNAMED
---add-opens javafx.controls/com.sun.javafx.charts=ALL-UNNAMED
---add-opens javafx.controls/com.sun.javafx.scene.control.inputmap=ALL-UNNAMED
---add-opens javafx.graphics/com.sun.javafx.iio=ALL-UNNAMED
---add-opens javafx.graphics/com.sun.javafx.iio.common=ALL-UNNAMED
---add-opens javafx.graphics/com.sun.javafx.css=ALL-UNNAMED
---add-opens javafx.base/com.sun.javafx.runtime=ALL-UNNAMED
--Dnativewindow.debug.JAWT --add-exports=java.desktop/sun.awt=ALL-UNNAMED
+/**
+ * Evaluate a JOGL native JavaFX canvas.
+ * 
+ * Not working properly at JOGL version 2.4.0 (canvas not resizing) but kept for future JOGL versions.
  */
+// --module-path "C:\Program Files\Java\javafx-sdk-17.0.6\lib" --add-modules javafx.controls
+// --add-opens javafx.graphics/com.sun.javafx.tk=ALL-UNNAMED --add-opens
+// javafx.graphics/javafx.stage=ALL-UNNAMED --add-opens
+// javafx.graphics/com.sun.javafx.tk.quantum=ALL-UNNAMED --add-opens
+// javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
+// --module-path /Users/martin/Dev/javafx-sdk-19/lib --add-modules javafx.controls --add-opens
+// javafx.graphics/com.sun.javafx.tk=ALL-UNNAMED --add-opens
+// javafx.graphics/javafx.stage=ALL-UNNAMED --add-opens
+// javafx.graphics/com.sun.javafx.tk.quantum=ALL-UNNAMED --add-opens
+// javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
+/*
+ * --module-path /Users/martin/Dev/javafx-sdk-19/lib --add-modules javafx.controls,javafx.graphics
+ * --add-opens javafx.graphics/com.sun.javafx.tk=ALL-UNNAMED --add-opens
+ * javafx.controls/com.sun.javafx.charts=ALL-UNNAMED --add-opens
+ * javafx.controls/com.sun.javafx.scene.control.inputmap=ALL-UNNAMED --add-opens
+ * javafx.graphics/com.sun.javafx.iio=ALL-UNNAMED --add-opens
+ * javafx.graphics/com.sun.javafx.iio.common=ALL-UNNAMED --add-opens
+ * javafx.graphics/com.sun.javafx.css=ALL-UNNAMED --add-opens
+ * javafx.base/com.sun.javafx.runtime=ALL-UNNAMED -Dnativewindow.debug.JAWT
+ * --add-exports=java.desktop/sun.awt=ALL-UNNAMED
+ */
+public class JOGL_JavaFX extends Application {
 
-// --add-modules javafx.graphics,javafx.controls 
-// --add-opens javafx.graphics com.sun.javafx.tk=ALL-UNNAMED
-public class DemoJavaFX_NewtCanvasJFX extends Application {
+  private Animator animator;
 
   @Override
   public void start(Stage stage) {
-    
-    Platform.setImplicitExit(false);
+    GLProfile.initSingleton();
+
+    Platform.setImplicitExit(true);
     final Group g = new Group();
     Scene scene = new Scene(g, 800, 600);
     stage.setScene(scene);
     stage.show();
     com.jogamp.newt.Display jfxNewtDisplay = NewtFactory.createDisplay(null, false);
     final Screen screen = NewtFactory.createScreen(jfxNewtDisplay, 0);
-    final GLCapabilities caps = new GLCapabilities(GLProfile.getDefault());
+    final GLCapabilities caps = new GLCapabilities(GLProfile.getMaxFixedFunc(true));
     final GLWindow glWindow1 = GLWindow.create(screen, caps);
     glWindow1.addGLEventListener(new GLEventListener() {
       private float rotateT = 0.0f;
@@ -81,23 +95,16 @@ public class DemoJavaFX_NewtCanvasJFX extends Application {
         gl.glClear(GL.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
         gl.glTranslatef(0.0f, 0.0f, -5.0f);
-
-        // rotate about the three axes
         gl.glRotatef(rotateT, 1.0f, 0.0f, 0.0f);
         gl.glRotatef(rotateT, 0.0f, 1.0f, 0.0f);
         gl.glRotatef(rotateT, 0.0f, 0.0f, 1.0f);
-
-        // Draw A Quad
         gl.glBegin(GL2.GL_QUADS);
-        gl.glColor3f(0.0f, 1.0f, 1.0f); // set the color of the quad
-        gl.glVertex3f(-1.0f, 1.0f, 0.0f); // Top Left
-        gl.glVertex3f(1.0f, 1.0f, 0.0f); // Top Right
-        gl.glVertex3f(1.0f, -1.0f, 0.0f); // Bottom Right
-        gl.glVertex3f(-1.0f, -1.0f, 0.0f); // Bottom Left
-        // Done Drawing The Quad
+        gl.glColor3f(0.0f, 1.0f, 1.0f);
+        gl.glVertex3f(-1.0f, 1.0f, 0.0f);
+        gl.glVertex3f(1.0f, 1.0f, 0.0f);
+        gl.glVertex3f(1.0f, -1.0f, 0.0f);
+        gl.glVertex3f(-1.0f, -1.0f, 0.0f);
         gl.glEnd();
-
-        // increasing rotation for the next iteration
         rotateT += 0.2f;
       }
 
@@ -107,8 +114,15 @@ public class DemoJavaFX_NewtCanvasJFX extends Application {
     glCanvas.setWidth(800);
     glCanvas.setHeight(600);
     g.getChildren().add(glCanvas);
-    final Animator anim = new Animator(glWindow1);
-    anim.start();
+    animator = new Animator(glWindow1);
+    animator.start();
+  }
+
+  @Override
+  public void stop() throws Exception {
+    if (animator != null) {
+      animator.stop();
+    }
   }
 
   public static void main(String[] args) {

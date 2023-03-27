@@ -4,8 +4,6 @@ import org.jzy3d.chart.AWTNativeChart;
 import org.jzy3d.colors.Color;
 import org.jzy3d.colors.ColorMapper;
 import org.jzy3d.colors.colormaps.ColorMapRainbow;
-import org.jzy3d.events.IViewEventListener;
-import org.jzy3d.events.ViewIsVerticalEvent;
 import org.jzy3d.javafx.controllers.mouse.JavaFXCameraMouseController;
 import org.jzy3d.javafx.offscreen.JavaFXOffscreenChartFactory;
 import org.jzy3d.javafx.offscreen.JavaFXOffscreenRenderer3d;
@@ -26,25 +24,17 @@ import javafx.stage.Stage;
  * {@link JavaFXOffscreenChartFactory} delivers dedicated {@link JavaFXCameraMouseController} and
  * {@link JavaFXOffscreenRenderer3d}
  * 
- * Support Rotation control with left mouse button hold+drag Scaling scene using mouse wheel
- * Animation (camera rotation with thread)
- * 
- * TODO : Mouse right click shift Keyboard support (rotate/shift, etc)
- * 
- * 
  * Will run on OpenJDK8, require jxfrt.jar to be available
  * 
  * @author Martin Pernollet
  */
+@SuppressWarnings("restriction")
 public class DemoJavaFX_Offscreen_OpenJDK8_Surface extends Application {
   public static Application app;
   
   public static void main(String[] args) {
     Application.launch(args);
-    
-    
   }
-     
 
   @Override
   public void start(Stage stage) {
@@ -65,13 +55,9 @@ public class DemoJavaFX_Offscreen_OpenJDK8_Surface extends Application {
     stage.show();
 
     factory.addSceneSizeChangedListener(chart, scene);
-    
 
-    // DO THIS AFTER START, at this step, window is not displayed!
     stage.setWidth(500);
     stage.setHeight(500);
-    //stage.setWidth(500);
-    //stage.setHeight(700);
   }
 
   private AWTNativeChart getDemoChart(JavaFXOffscreenChartFactory factory) {
@@ -97,9 +83,6 @@ public class DemoJavaFX_Offscreen_OpenJDK8_Surface extends Application {
     // -------------------------------
     // Create a chart
     Quality quality = Quality.Advanced();
-    //quality.setAnimated(true);
-    
-    //System.out.println(quality.isAnimated());
 
     // let factory bind mouse and keyboard controllers to JavaFX node
     factory.getPainterFactory().setOffscreen(800, 600);

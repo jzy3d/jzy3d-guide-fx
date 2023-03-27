@@ -7,9 +7,7 @@ import org.jzy3d.chart.controllers.mouse.picking.IObjectPickedListener;
 import org.jzy3d.chart.controllers.mouse.picking.PickingSupport;
 import org.jzy3d.colors.Color;
 import org.jzy3d.javafx.controllers.JavaFXChartController;
-import org.jzy3d.javafx.controllers.mouse.JavaFXCameraMouseController;
 import org.jzy3d.javafx.offscreen.JavaFXOffscreenChartFactory;
-import org.jzy3d.javafx.offscreen.JavaFXOffscreenRenderer3d;
 import org.jzy3d.maths.graphs.IGraph;
 import org.jzy3d.maths.graphs.StringGraphGenerator;
 import org.jzy3d.plot3d.primitives.graphs.impl.PointGraph2d;
@@ -24,19 +22,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-/**
- * Showing how to pipe an offscreen Jzy3d chart image to a JavaFX ImageView.
- * 
- * {@link JavaFXOffscreenChartFactory} delivers dedicated {@link JavaFXCameraMouseController} and
- * {@link JavaFXOffscreenRenderer3d}
- * 
- * Support Rotation control with left mouse button hold+drag Scaling scene using mouse wheel
- * Animation (camera rotation with thread)
- * 
- * TODO : Mouse right click shift Keyboard support (rotate/shift, etc)
- * 
- * @author Martin Pernollet
- */
 @SuppressWarnings("restriction")
 public class DemoPickableGraphFX extends Application {
   public static int NODES = 500;
@@ -57,7 +42,7 @@ public class DemoPickableGraphFX extends Application {
 
     // Jzy3d
     JavaFXOffscreenChartFactory factory = new JavaFXOffscreenChartFactory();
-    initChart(factory, "offscreen");
+    initChart(factory);
     ImageView imageView = factory.bindImageView(chart);
 
     ((JavaFXChartController) mouse).setNode(imageView); // allow picking
@@ -75,7 +60,7 @@ public class DemoPickableGraphFX extends Application {
     stage.setHeight(500);
   }
 
-  public void initChart(JavaFXOffscreenChartFactory factory, String toolkit) {
+  public void initChart(JavaFXOffscreenChartFactory factory) {
     // Init graph
     IGraph<String, String> graph = StringGraphGenerator.getGraph(NODES, EDGES);
     IGraphLayout2d<String> layout = StringGraphGenerator.getRandomLayout(graph, GL_LAYOUT_SIZE);
