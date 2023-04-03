@@ -1,25 +1,31 @@
 package org.jzy3d.demos.javafx;
 
 import org.jzy3d.chart.AWTNativeChart;
+import org.jzy3d.chart.factories.NativePainterFactory;
 import org.jzy3d.colors.Color;
 import org.jzy3d.colors.ColorMapper;
 import org.jzy3d.colors.colormaps.ColorMapRainbow;
 import org.jzy3d.javafx.offscreen.JavaFXOffscreenChartFactory;
+import org.jzy3d.javafx.offscreen.JavaFXOffscreenPainterFactory;
 import org.jzy3d.maths.Range;
 import org.jzy3d.plot3d.builder.Mapper;
 import org.jzy3d.plot3d.builder.SurfaceBuilder;
 import org.jzy3d.plot3d.primitives.Shape;
 import org.jzy3d.plot3d.rendering.canvas.Quality;
+import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLProfile;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 /**
  * Demonstrate how to use offscreen rendering to display 3D image in a JavaFX ImageView.
  * 
  * Will require JDK19, Gluon's JavaFX 19 in classpath
+ * 
+ * If the demo hangs while starting and is running in Eclipse IDE, uncheck the Run Configuration option 
+ * "Use the -XstartOnFirstThread" option when running with SWT"
  * 
  * @author Martin Pernollet
  */
@@ -36,19 +42,22 @@ public class DemoJavaFX_Offscreen_Gluon19 extends Application {
     stage.setTitle(DemoJavaFX_Offscreen_Gluon19.class.getSimpleName());
 
     // Jzy3d
-    JavaFXOffscreenChartFactory factory = new JavaFXOffscreenChartFactory();
+    GLProfile profile = NativePainterFactory.detectGLProfile();
+    GLCapabilities capabilities = NativePainterFactory.getOffscreenCapabilities(profile);
+    capabilities.setAlphaBits(0);
+    
+    JavaFXOffscreenPainterFactory painterF = new JavaFXOffscreenPainterFactory(capabilities);
+    JavaFXOffscreenChartFactory factory = new JavaFXOffscreenChartFactory(painterF);
+
     AWTNativeChart chart = getDemoChart(factory);
-    ImageView imageView = factory.bindImageView(chart);
+    Canvas canvas = factory.bindCanvas(chart);
 
     // JavaFX
     StackPane pane = new StackPane();
     Scene scene = new Scene(pane);
     stage.setScene(scene);
     stage.show();
-    pane.getChildren().add(imageView);
-
-
-    factory.addSceneSizeChangedListener(chart, scene);
+    pane.getChildren().add(canvas);
 
     stage.setWidth(500);
     stage.setHeight(500);

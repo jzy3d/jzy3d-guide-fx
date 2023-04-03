@@ -1,62 +1,80 @@
 package org.jzy3d.demos.javafx;
 
 import org.jzy3d.chart.AWTNativeChart;
+import org.jzy3d.chart.factories.NativePainterFactory;
 import org.jzy3d.colors.Color;
 import org.jzy3d.colors.ColorMapper;
 import org.jzy3d.colors.colormaps.ColorMapRainbow;
-import org.jzy3d.javafx.controllers.mouse.JavaFXCameraMouseController;
 import org.jzy3d.javafx.offscreen.JavaFXOffscreenChartFactory;
-import org.jzy3d.javafx.offscreen.JavaFXOffscreenRenderer3d;
+import org.jzy3d.javafx.offscreen.JavaFXOffscreenPainterFactory;
 import org.jzy3d.maths.Range;
 import org.jzy3d.plot3d.builder.Mapper;
 import org.jzy3d.plot3d.builder.SurfaceBuilder;
 import org.jzy3d.plot3d.primitives.Shape;
 import org.jzy3d.plot3d.rendering.canvas.Quality;
+import com.jogamp.opengl.GLCapabilities;
+import com.jogamp.opengl.GLProfile;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
- * Showing how to pipe an offscreen Jzy3d chart image to a JavaFX ImageView.
+ * Demonstrate how to use offscreen rendering to display 3D image in a JavaFX ImageView.
  * 
- * {@link JavaFXOffscreenChartFactory} delivers dedicated {@link JavaFXCameraMouseController} and
- * {@link JavaFXOffscreenRenderer3d}
+ * Will require JDK17, Gluon's JavaFX 17 in classpath
  * 
- * Will run on OpenJDK8, require jxfrt.jar to be available
- * 
+ * If the demo hangs while starting and is running in Eclipse IDE, uncheck the Run Configuration option 
+ * "Use the -XstartOnFirstThread" option when running with SWT"
+ *
  * @author Martin Pernollet
  */
-@SuppressWarnings("restriction")
-public class DemoJavaFX_Offscreen_OpenJDK8_Surface extends Application {
-  public static Application app;
-  
+// --module-path /Users/martin/Dev/javafx-sdk-17/lib --add-modules javafx.controls --add-exports=java.desktop/sun.awt=ALL-UNNAMED
+// --module-path "C:\Program Files\Java\javafx-sdk-17.0.6\lib"  --add-modules javafx.controls --add-exports=java.desktop/sun.awt=ALL-UNNAMED
+public class DemoJavaFX_Integration extends Application {
   public static void main(String[] args) {
     Application.launch(args);
   }
 
   @Override
   public void start(Stage stage) {
-    app = this;
+    GLProfile.initSingleton();
     
-    stage.setTitle(DemoJavaFX_Offscreen_OpenJDK8_Surface.class.getSimpleName());
+    stage.setTitle(DemoJavaFX_Integration.class.getSimpleName());
 
     // Jzy3d
-    JavaFXOffscreenChartFactory factory = new JavaFXOffscreenChartFactory();
+    GLProfile profile = NativePainterFactory.detectGLProfile();
+    GLCapabilities capabilities = NativePainterFactory.getOffscreenCapabilities(profile);
+    capabilities.setAlphaBits(0);
+    
+    JavaFXOffscreenPainterFactory painterF = new JavaFXOffscreenPainterFactory(capabilities);
+    JavaFXOffscreenChartFactory factory = new JavaFXOffscreenChartFactory(painterF);
     AWTNativeChart chart = getDemoChart(factory);
     Canvas canvas = factory.bindCanvas(chart);
-
+    
     // JavaFX
     StackPane pane = new StackPane();
     Scene scene = new Scene(pane);
     stage.setScene(scene);
-    pane.getChildren().add(canvas);
     stage.show();
+    
+    Label label = new Label("Hello, Jzy3D on JavaFX");
+    VBox vbox = new VBox(20, label, canvas);
+    VBox.setVgrow(canvas, Priority.ALWAYS);
+    
+    pane.getChildren().add(vbox);
 
+    canvas.setWidth(500);
+    canvas.setHeight(500);
 
     stage.setWidth(500);
     stage.setHeight(500);
+    
+
   }
 
   private AWTNativeChart getDemoChart(JavaFXOffscreenChartFactory factory) {
@@ -75,7 +93,8 @@ public class DemoJavaFX_Offscreen_OpenJDK8_Surface extends Application {
 
     // Create the object to represent the function over the given range.
     final Shape surface = new SurfaceBuilder().orthonormal(mapper, range, steps);
-    surface.setColorMapper(new ColorMapper(new ColorMapRainbow(), surface, new Color(1, 1, 1, .75f)));
+    surface.setColorMapper(new ColorMapper(new ColorMapRainbow(), surface.getBounds().getZmin(),
+        surface.getBounds().getZmax(), new Color(1, 1, 1, .5f)));
     surface.setFaceDisplayed(true);
     surface.setWireframeDisplayed(false);
 
@@ -87,6 +106,8 @@ public class DemoJavaFX_Offscreen_OpenJDK8_Surface extends Application {
     factory.getPainterFactory().setOffscreen(800, 600);
     AWTNativeChart chart = (AWTNativeChart) factory.newChart(quality);
     chart.getScene().getGraph().add(surface);
+    
     return chart;
   }
+  
 }

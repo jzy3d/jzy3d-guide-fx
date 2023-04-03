@@ -19,7 +19,7 @@ import org.jzy3d.plot3d.primitives.vbo.drawable.ScatterVBO;
 import org.jzy3d.plot3d.rendering.canvas.Quality;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -37,20 +37,20 @@ public class DemoJavaFX_Offscreen_OpenJDK8_VBO extends Application {
     // Jzy3d
     JavaFXOffscreenChartFactory factory = new JavaFXOffscreenChartFactory();
     AWTNativeChart chart = getDemoChartVBO(factory);
-    ImageView imageView = factory.bindImageView(chart);
+    Canvas canvas = factory.bindCanvas(chart);
 
     // JavaFX
     StackPane pane = new StackPane();
     Scene scene = new Scene(pane);
     stage.setScene(scene);
+    pane.getChildren().add(canvas);
     stage.show();
-    pane.getChildren().add(imageView);
+
 
 
     stage.setWidth(500);
     stage.setHeight(500);
 
-    factory.addSceneSizeChangedListener(chart, scene);
   }
 
   public static int MILION = 1000000;

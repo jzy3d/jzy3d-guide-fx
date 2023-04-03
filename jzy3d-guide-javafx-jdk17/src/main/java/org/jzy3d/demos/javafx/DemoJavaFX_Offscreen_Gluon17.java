@@ -16,7 +16,7 @@ import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLProfile;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -48,17 +48,14 @@ public class DemoJavaFX_Offscreen_Gluon17 extends Application {
     JavaFXOffscreenPainterFactory painterF = new JavaFXOffscreenPainterFactory(capabilities);
     JavaFXOffscreenChartFactory factory = new JavaFXOffscreenChartFactory(painterF);
     AWTNativeChart chart = getDemoChart(factory);
-    ImageView imageView = factory.bindImageView(chart);
+    Canvas canvasFX = factory.bindCanvas(chart);
 
     // JavaFX
     StackPane pane = new StackPane();
     Scene scene = new Scene(pane);
     stage.setScene(scene);
     stage.show();
-    pane.getChildren().add(imageView);
-
-
-    factory.addSceneSizeChangedListener(chart, scene);
+    pane.getChildren().add(canvasFX);
 
     stage.setWidth(500);
     stage.setHeight(500);
