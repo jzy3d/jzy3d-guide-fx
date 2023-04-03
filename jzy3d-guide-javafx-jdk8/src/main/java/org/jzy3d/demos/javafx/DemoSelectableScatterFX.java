@@ -11,7 +11,7 @@ import org.jzy3d.plot3d.primitives.selectable.SelectableScatter;
 import org.jzy3d.plot3d.rendering.canvas.Quality;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -29,16 +29,14 @@ public class DemoSelectableScatterFX extends Application {
     // Jzy3d
     JavaFXOffscreenChartFactory factory = new JavaFXOffscreenChartFactory();
     AWTNativeChart chart = getDemoChart(factory);
-    ImageView imageView = factory.bindImageView(chart);
+    Canvas canvas = factory.bindCanvas(chart);
 
     // JavaFX
     StackPane pane = new StackPane();
     Scene scene = new Scene(pane);
     stage.setScene(scene);
     stage.show();
-    pane.getChildren().add(imageView);
-
-    factory.addSceneSizeChangedListener(chart, scene);
+    pane.getChildren().add(canvas);
 
     stage.setWidth(500);
     stage.setHeight(500);
