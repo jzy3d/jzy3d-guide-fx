@@ -35,7 +35,7 @@ import javafx.stage.Stage;
  */
 // --module-path /Users/martin/Dev/javafx-sdk-17/lib --add-modules javafx.controls --add-exports=java.desktop/sun.awt=ALL-UNNAMED
 // --module-path "C:\Program Files\Java\javafx-sdk-17.0.6\lib"  --add-modules javafx.controls --add-exports=java.desktop/sun.awt=ALL-UNNAMED
-public class DemoJavaFX_Integration extends Application {
+public class DemoJavaFX_Integration19 extends Application {
   public static void main(String[] args) {
     Application.launch(args);
   }
@@ -44,7 +44,7 @@ public class DemoJavaFX_Integration extends Application {
   public void start(Stage stage) {
     GLProfile.initSingleton();
     
-    stage.setTitle(DemoJavaFX_Integration.class.getSimpleName());
+    stage.setTitle(DemoJavaFX_Integration19.class.getSimpleName());
 
     // Jzy3d
     GLProfile profile = NativePainterFactory.detectGLProfile();
