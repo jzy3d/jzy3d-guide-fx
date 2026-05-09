@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>org.jzy3d</groupId>
 		<artifactId>jzy3d-guide-javafx</artifactId>
-		<version>2.2.1</version>
+		<version>3.0.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>jzy3d-guide-javafx-jdk8</artifactId>
